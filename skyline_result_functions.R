@@ -53,6 +53,27 @@ concat_skyline_tab = function( cell_list, CC_num_str ) {
 
 
 
+add_cell_drug_info = function( main_tab, r_sq_tab, cell_data, molweight_data ) {
+  
+  tab1 = merge(main_tab , r_sq_tab, by=c("Cell.line","Drug"))
+  tab2 = merge( tab1, cell_data, by="Cell.line")
+  final_table = merge( tab2, molweight_data, by="Drug")
+  
+  return(final_table)
+}
+
+
+
+check_annot = function( original_table, final_table ){
+  
+  missing_list = setdiff( original_table$Replicate, final_table$Replicate)
+  
+  return(missing_list)
+}
+
+
+
+
 calc_mol_in_cell = function(quant, drug_mol_weight) {
   
   # calculate mass in cell - 2.5 comes from 25 [= dilution factor] * 100uL [extraction volume] to ml [since quant is a concentration in ng/ml]
